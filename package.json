@@ -1,0 +1,19 @@
+{
+  "name": "@active-book/types",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Type-only public API for Active Book custom components",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "@types/react": "^19.2.0"
+  }
+}
