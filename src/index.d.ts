@@ -16,20 +16,32 @@ export type BookAudioController = {
   remove: () => void;
 };
 
+export type BookBackgroundEffectImage = {
+  src: string;
+  style?: CSSProperties,
+};
+
+export type BookBackgroundEffectVideo = {
+  id: string;
+  src: string;
+  style?: CSSProperties;
+  loop?: boolean;
+  autoPlay?: boolean;
+  muted?: boolean;
+  relativeVolume?: number;
+};
+
+export type BookBackgroundEffectShadow = {
+  show?: boolean;
+  style?: CSSProperties;
+}
+
 export type BookBackgroundEffect = {
   id: string;
   style?: CSSProperties;
-  images?: Array<{ src: string; style?: CSSProperties }>;
-  videos?: Array<{
-    id: string;
-    src: string;
-    style?: CSSProperties;
-    loop?: boolean;
-    autoPlay?: boolean;
-    muted?: boolean;
-    relativeVolume?: number;
-  }>;
-  shadow?: { show?: boolean; style?: CSSProperties };
+  images?: BookBackgroundEffectImage[];
+  videos?: BookBackgroundEffectVideo[];
+  shadow?: BookBackgroundEffectShadow;
   Component?: ReactNode;
 };
 
