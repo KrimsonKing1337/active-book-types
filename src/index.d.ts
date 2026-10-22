@@ -18,7 +18,7 @@ export type BookAudioController = {
 
 export type BookBackgroundEffectImage = {
   src: string;
-  style?: CSSProperties,
+  style?: CSSProperties;
 };
 
 export type BookBackgroundEffectVideo = {
@@ -34,7 +34,7 @@ export type BookBackgroundEffectVideo = {
 export type BookBackgroundEffectShadow = {
   show?: boolean;
   style?: CSSProperties;
-}
+};
 
 export type BookBackgroundEffect = {
   id: string;
