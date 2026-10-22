@@ -1,4 +1,4 @@
-import type { ComponentType, PropsWithChildren } from 'react';
+import type { ComponentType, PropsWithChildren, ReactNode, CSSProperties } from 'react';
 
 // Minimal public view of a registered audio instance.
 // The actual implementation belongs to activeBook-core.
@@ -16,6 +16,23 @@ export type BookAudioController = {
   remove: () => void;
 };
 
+export type BookBackgroundEffect = {
+  id: string;
+  style?: CSSProperties;
+  images?: Array<{ src: string; style?: CSSProperties }>;
+  videos?: Array<{
+    id: string;
+    src: string;
+    style?: CSSProperties;
+    loop?: boolean;
+    autoPlay?: boolean;
+    muted?: boolean;
+    relativeVolume?: number;
+  }>;
+  shadow?: { show?: boolean; style?: CSSProperties };
+  Component?: ReactNode;
+};
+
 export type BookRuntime = {
   mode: 'editor' | 'reader';
   components: {
@@ -25,6 +42,7 @@ export type BookRuntime = {
   };
   hooks: {
     useAudioController: (id: string) => BookAudioController;
+    useBackground: (effect: BookBackgroundEffect) => () => void;
   };
 };
 
