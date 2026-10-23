@@ -29,7 +29,7 @@ export const CustomTitle = ({ book }: BookComponentProps) => {
 
 The host passes the real `book` object to every custom component when rendering the book's JSON.
 The `BookRuntime` interface currently includes `P`, `H1`, `H2`, `mode` and
-`hooks.useAudioController(id)`.
+`hooks.useAudioController(id)` and `hooks.useBackground(effect)`.
 
 `useAudioController` is an actual hook from Active Book Core. It reads audio instances from
 Redux `audioEffectsSelectors.audioInstances` (`state.audioEffects.audioInstances`) and exposes
@@ -38,3 +38,7 @@ Redux `audioEffectsSelectors.audioInstances` (`state.audioEffects.audioInstances
 This is an experimental contract; coordinate changes to this package with
 `activeBook-editor` and `activeBook-custom-test`. The package is intentionally private until
 the public API has stabilized.
+
+Background effects are registered through `book.hooks.useBackground({ id, images, videos, shadow, style })`.
+The hook manages registration in the host and returns a cleanup callback. Call it at the top level of a
+React component; do not invoke it from an event handler. The host keeps the Redux implementation private.
