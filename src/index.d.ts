@@ -37,11 +37,20 @@ export type BookBackgroundEffectShadow = {
   style?: CSSProperties;
 };
 
+export type BookBackgroundEffectKind =
+  | 'background'
+  | 'image'
+  | 'video'
+  | 'shadow'
+  | 'component';
+
 export type BookBackgroundEffect = {
   id: string;
+  kind: BookBackgroundEffectKind;
+  inRange?: boolean;
   style?: CSSProperties;
-  images?: BookBackgroundEffectImage[];
-  videos?: BookBackgroundEffectVideo[];
+  image?: BookBackgroundEffectImage;
+  video?: BookBackgroundEffectVideo;
   shadow?: BookBackgroundEffectShadow;
   Component?: ReactNode;
 };
