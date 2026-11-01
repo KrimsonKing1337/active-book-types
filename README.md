@@ -1,11 +1,20 @@
 # @active-book/types
 
 Public **TypeScript-only** contract for custom components loaded by Active Book.
-The package consists of `src/index.d.ts` and contains no runtime JavaScript and does **not** bundle React or Active Book Core.
+The package exports declarations from `src/index.d.ts`, contains no runtime JavaScript,
+and does **not** bundle React or Active Book Core.
 
 ## Usage
 
-Clone next to the custom-component repository (both repos checked out as siblings) and install its development types:\n\n```sh\ncd ../activeBook-types\nnpm install\n```\n\nThen add to the custom-component repository:
+Clone next to the custom-component repository (both repos checked out as siblings)
+and install its development types:
+
+```sh
+cd ../activeBook-types
+npm install
+```
+
+Then add to the custom-component repository:
 
 ```json
 {
@@ -39,6 +48,27 @@ This is an experimental contract; coordinate changes to this package with
 `activeBook-editor` and `activeBook-custom-test`. The package is intentionally private until
 the public API has stabilized.
 
-Background effects are registered through `book.hooks.useBackground({ id, images, videos, shadow, style })`.
+Background effects are registered through `book.hooks.useBackground({ id, kind, image, video, shadow, style })`.
 The hook manages registration in the host and returns a cleanup callback. Call it at the top level of a
 React component; do not invoke it from an event handler. The host keeps the Redux implementation private.
+
+## Common visual effect contract
+
+The package also exports `VisualEffectInstance`, placement, visibility, masks, depth,
+page/range lifetimes, and React renderer types. See [the contract](docs/visual-effects.md)
+for the data model and lifecycle requirements.
+
+These are declarations for the next implementation stages. They do not add a visual
+registration hook to `BookRuntime` or change the current Background/Frame runtime.
+
+## Checks
+
+```sh
+npm ci
+npm run typecheck
+npm test
+npm run test:bundler
+```
+
+The tests compile valid and intentionally invalid consumers of the public package
+exports. They emit no JavaScript. Both NodeNext and Bundler resolution are checked.

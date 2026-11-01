@@ -1,5 +1,33 @@
 import type { ComponentType, PropsWithChildren, ReactNode, CSSProperties } from 'react';
 
+export type {
+  JsonValue,
+  JsonObject,
+  VisualRegion,
+  FrameSide,
+  AnchorPoint,
+  VisualLength,
+  VisualPoint,
+  VisualSize,
+  VisualPlacement,
+  VisualMask,
+  VisualVisibility,
+  VisualPlane,
+  VisualDepth,
+  VisualEffectInstance,
+  PageRange,
+  VisualEffectLifetime,
+  VisualEffectRegistration,
+} from './visual-effects.js';
+
+export type {
+  VisualPlayback,
+  VisualGeometry,
+  VisualRendererProps,
+  VisualEffectDefinition,
+  VisualEffectController,
+} from './visual-renderers.js';
+
 // Minimal public view of a registered audio instance.
 // The actual implementation belongs to activeBook-core.
 export type BookAudioInstance = {
