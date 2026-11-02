@@ -1,7 +1,7 @@
+import type { ComponentType, PropsWithChildren, CSSProperties } from 'react';
+
 import type { JsonObject } from './visual-effects.js';
 import type { VisualRendererProps } from './visual-renderers.js';
-
-import type { ComponentType, PropsWithChildren, CSSProperties } from 'react';
 
 export type {
   JsonValue,
@@ -84,17 +84,23 @@ export type BookBackgroundEffect = {
   shadow?: BookBackgroundEffectShadow;
 };
 
+type BookRuntimeMode = 'editor' | 'reader';
+
+type BookRuntimeComponents = {
+  P: ComponentType<PropsWithChildren>;
+  H1: ComponentType<PropsWithChildren>;
+  H2: ComponentType<PropsWithChildren>;
+}
+
+type BookRuntimeHooks = {
+  useAudioController: (id: string) => BookAudioController;
+  useBackground: (effect: BookBackgroundEffect) => () => void;
+};
+
 export type BookRuntime = {
-  mode: 'editor' | 'reader';
-  components: {
-    P: ComponentType<PropsWithChildren>;
-    H1: ComponentType<PropsWithChildren>;
-    H2: ComponentType<PropsWithChildren>;
-  };
-  hooks: {
-    useAudioController: (id: string) => BookAudioController;
-    useBackground: (effect: BookBackgroundEffect) => () => void;
-  };
+  mode: BookRuntimeMode;
+  components: BookRuntimeComponents;
+  hooks: BookRuntimeHooks;
 };
 
 export type BookComponentProps = {
