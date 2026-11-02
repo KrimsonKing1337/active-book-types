@@ -11,9 +11,13 @@ export type JsonObject = {
   readonly [key: string]: JsonValue;
 };
 
-/** Book excludes the editor; page excludes the book's controls. */
+/**
+ * Book is persistent and excludes editor UI.
+ * bookViewport includes the player's controls; page excludes them.
+ */
 export type VisualRegion =
   | 'book'
+  | 'bookViewport'
   | 'page'
   | 'frame'
   | 'narrativeViewport'
@@ -83,8 +87,9 @@ export type VisualVisibility =
       mask?: VisualMask;
     };
 
-/** Author planes, from back to front. System feedback is host-owned and excluded. */
+/** Background precedes scene; system feedback is host-owned and excluded. */
 export type VisualPlane =
+  | 'background'
   | 'scene'
   | 'aboveNarrative'
   | 'aboveControls';

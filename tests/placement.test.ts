@@ -12,6 +12,7 @@ import { placement, smoke } from './fixtures.js';
 
 const visibilityRegions: readonly VisualVisibility[] = [
   { region: 'book' },
+  { region: 'bookViewport' },
   { region: 'page' },
   { region: 'narrativeViewport' },
   { region: 'narrativeContent' },
@@ -90,3 +91,16 @@ const invalidMask: VisualMask = {
     unit: 'vw',
   },
 };
+
+const playerBackground: VisualEffectInstance<SmokeParams> = {
+  ...smoke,
+  placement: { ...placement, coordinates: 'bookViewport' },
+  visibility: { region: 'bookViewport' },
+  depth: { plane: 'background', order: 0 },
+};
+void playerBackground;
+
+// System feedback is a host responsibility and cannot be authored as an effect plane.
+// @ts-expect-error system feedback is excluded from VisualPlane
+const systemPlane: VisualPlane = 'systemFeedback';
+void systemPlane;

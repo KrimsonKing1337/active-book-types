@@ -114,3 +114,12 @@ page limits. Validation reports invalid data without silently editing authored r
 
 These constraints do not introduce shared simulations, synchronization, multipass
 rendering, dependency graphs, narrative layout manipulation, or composition editing.
+
+Stage 5 adds `bookViewport`, the inner visible player area containing its page and
+controls (inside the persistent `book` root). Built-in backgrounds use it to
+preserve the existing image/video fit when the player is narrower than the book
+root. `page` still excludes the player's controls.
+
+The author plane order is `background`, `scene`, `aboveNarrative`, `aboveControls`.
+A separate host-owned feedback layer remains outside `VisualPlane`, so flashlight
+and vibration feedback cannot be covered by an authored effect with a large order.

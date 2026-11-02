@@ -75,7 +75,6 @@ export type BookBackgroundEffectKind =
 export type BookBackgroundEffect = {
   id: string;
   kind: BookBackgroundEffectKind;
-  inRange?: boolean;
   style?: CSSProperties;
   image?: BookBackgroundEffectImage;
   video?: BookBackgroundEffectVideo;
