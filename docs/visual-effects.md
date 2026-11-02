@@ -123,3 +123,21 @@ root. `page` still excludes the player's controls.
 The author plane order is `background`, `scene`, `aboveNarrative`, `aboveControls`.
 A separate host-owned feedback layer remains outside `VisualPlane`, so flashlight
 and vibration feedback cannot be covered by an authored effect with a large order.
+
+
+## Native package visual exports (stage 6)
+
+A TGZ visual export receives `BookVisualRendererProps<Params>`: the ordinary
+`VisualRendererProps` plus the host's `book: BookRuntime`. It may expose playback
+through the React 19 `ref` prop. Allocate and release instance resources in the
+renderer; exports and controllers never enter authored descriptions.
+
+The existing manifest has separate `components` (inline text insertions) and
+`visualEffects` (native definitions) sections. A visual entry includes `category`
+(`background` or `frame`), `entry`, `export`, `title`, optional `styles`, and JSON
+`defaultParams`. JSON instances use `custom.background/<package>/<name>` or
+`custom.frame/<package>/<name>`. `params.custom` carries custom data and optional
+`params.componentKey` selects nested React identity. Equal data does not update a
+registration; a changed key remounts the nested export while preserving its owning
+registration. Ordinary CSS backgrounds can still use `book.hooks.useBackground`;
+the old ReactNode `Component` parameter has been removed.

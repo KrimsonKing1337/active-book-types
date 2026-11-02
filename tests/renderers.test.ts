@@ -1,6 +1,7 @@
 import type { ComponentType, Ref } from 'react';
 
 import type {
+  BookVisualRendererProps,
   VisualEffectController,
   VisualEffectDefinition,
   VisualPlayback,
@@ -73,3 +74,11 @@ const mismatchedDefinition: VisualEffectDefinition<SmokeParams> = {
   // @ts-expect-error Renderer and default parameters must share a parameter type.
   Renderer: WrongRenderer,
 };
+
+
+declare const native: BookVisualRendererProps<SmokeParams>;
+const nativeParams: SmokeParams = native.params;
+const nativeMode: 'editor' | 'reader' = native.book.mode;
+const nativeRef: Ref<VisualPlayback> | undefined = native.ref;
+// @ts-expect-error Native visual parameters are JSON; callback resources stay in the renderer.
+const badNativeParams: SmokeParams = { callback: () => {} };

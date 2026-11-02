@@ -59,5 +59,6 @@ declare const element: ReactElement;
 const component: BookBackgroundEffect = {
   id: 'background-component',
   kind: 'component',
+  // @ts-expect-error Visual implementations belong to definitions, not hook parameters.
   Component: element,
 };

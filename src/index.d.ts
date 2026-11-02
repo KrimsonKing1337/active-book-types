@@ -1,4 +1,7 @@
-import type { ComponentType, PropsWithChildren, ReactNode, CSSProperties } from 'react';
+import type { ComponentType, PropsWithChildren, CSSProperties } from 'react';
+
+import type { JsonObject } from './visual-effects.js';
+import type { VisualRendererProps } from './visual-renderers.js';
 
 export type {
   JsonValue,
@@ -79,22 +82,32 @@ export type BookBackgroundEffect = {
   image?: BookBackgroundEffectImage;
   video?: BookBackgroundEffectVideo;
   shadow?: BookBackgroundEffectShadow;
-  Component?: ReactNode;
+};
+
+type BookRuntimeMode = 'editor' | 'reader';
+
+type BookRuntimeComponents = {
+  P: ComponentType<PropsWithChildren>;
+  H1: ComponentType<PropsWithChildren>;
+  H2: ComponentType<PropsWithChildren>;
+}
+
+type BookRuntimeHooks = {
+  useAudioController: (id: string) => BookAudioController;
+  useBackground: (effect: BookBackgroundEffect) => () => void;
 };
 
 export type BookRuntime = {
-  mode: 'editor' | 'reader';
-  components: {
-    P: ComponentType<PropsWithChildren>;
-    H1: ComponentType<PropsWithChildren>;
-    H2: ComponentType<PropsWithChildren>;
-  };
-  hooks: {
-    useAudioController: (id: string) => BookAudioController;
-    useBackground: (effect: BookBackgroundEffect) => () => void;
-  };
+  mode: BookRuntimeMode;
+  components: BookRuntimeComponents;
+  hooks: BookRuntimeHooks;
 };
 
 export type BookComponentProps = {
+  book: BookRuntime;
+};
+
+/** Native visual exports from a TGZ receive the same renderer contract and book capabilities. */
+export type BookVisualRendererProps<Params extends JsonObject = JsonObject> = VisualRendererProps<Params> & {
   book: BookRuntime;
 };
