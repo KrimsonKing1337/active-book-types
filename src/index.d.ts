@@ -14,6 +14,8 @@ export type {
   VisualSize,
   VisualPlacement,
   VisualMask,
+  VisualNonFrameVisibility,
+  VisualFrameVisibility,
   VisualVisibility,
   VisualPlane,
   VisualDepth,
