@@ -76,16 +76,18 @@ export type VisualMask =
     };
 
 /** Independent of placement, including when coordinates are narrativeContent. */
-export type VisualVisibility =
-  | {
-      region: Exclude<VisualRegion, 'frame'>;
-      mask?: VisualMask;
-    }
-  | {
-      region: 'frame';
-      sides: readonly FrameSide[];
-      mask?: VisualMask;
-    };
+export type VisualNonFrameVisibility = {
+  region: Exclude<VisualRegion, 'frame'>;
+  mask?: VisualMask;
+};
+
+export type VisualFrameVisibility = {
+  region: 'frame';
+  sides: readonly FrameSide[];
+  mask?: VisualMask;
+};
+
+export type VisualVisibility = VisualNonFrameVisibility | VisualFrameVisibility;
 
 /** Background precedes scene; system feedback is host-owned and excluded. */
 export type VisualPlane =
