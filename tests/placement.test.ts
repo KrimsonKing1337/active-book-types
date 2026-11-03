@@ -11,9 +11,9 @@ import type { SmokeParams } from './fixtures.js';
 import { placement, smoke } from './fixtures.js';
 
 const visibilityRegions: readonly VisualVisibility[] = [
-  { region: 'book' },
-  { region: 'bookViewport' },
-  { region: 'page' },
+  { region: 'story' },
+  { region: 'storyViewport' },
+  { region: 'narrativeFrame' },
   { region: 'narrativeViewport' },
   { region: 'narrativeContent' },
   {
@@ -55,7 +55,7 @@ const maskedFrame: VisualVisibility = {
 };
 
 const maskedBook: VisualVisibility = {
-  region: 'book',
+  region: 'story',
   mask: polygon,
 };
 
@@ -94,8 +94,8 @@ const invalidMask: VisualMask = {
 
 const playerBackground: VisualEffectInstance<SmokeParams> = {
   ...smoke,
-  placement: { ...placement, coordinates: 'bookViewport' },
-  visibility: { region: 'bookViewport' },
+  placement: { ...placement, coordinates: 'storyViewport' },
+  visibility: { region: 'storyViewport' },
   depth: { plane: 'background', order: 0 },
 };
 void playerBackground;
@@ -104,3 +104,16 @@ void playerBackground;
 // @ts-expect-error system feedback is excluded from VisualPlane
 const systemPlane: VisualPlane = 'systemFeedback';
 void systemPlane;
+
+// Old geometry names and the old plane are intentionally unsupported.
+// @ts-expect-error The visual root is named story.
+const oldRoot: VisualRegion = 'book';
+// @ts-expect-error The visible work surface is named storyViewport.
+const oldViewport: VisualRegion = 'bookViewport';
+// @ts-expect-error Domain pages are not visual regions.
+const oldPage: VisualRegion = 'page';
+// @ts-expect-error Scene is reserved for future compositions.
+const oldPlane: VisualPlane = 'scene';
+
+const belowNarrativePlane: VisualPlane = 'belowNarrative';
+void [oldRoot, oldViewport, oldPage, oldPlane, belowNarrativePlane];
