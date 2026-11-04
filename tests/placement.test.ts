@@ -11,6 +11,7 @@ import type { SmokeParams } from './fixtures.js';
 import { placement, smoke } from './fixtures.js';
 
 const visibilityRegions: readonly VisualVisibility[] = [
+  { region: 'application' },
   { region: 'story' },
   { region: 'storyViewport' },
   { region: 'narrativeFrame' },

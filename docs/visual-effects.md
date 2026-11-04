@@ -27,6 +27,8 @@ cannot check whether a string `definitionId` exists or matches the supplied para
 
 ## Coordinates and visibility
 
+- `application` is the optional, host-owned application surface around the story.
+  It remains bounded by the book embed, never by editor tools or document.body.
 - `story` is the persistent visual root of the player, including its own controls.
   It excludes editor UI and is not `document.body`.
 - `storyViewport` is the visible work surface, including Toolbar.

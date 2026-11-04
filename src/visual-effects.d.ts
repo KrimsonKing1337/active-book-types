@@ -16,6 +16,7 @@ export type JsonObject = {
  * storyViewport includes controls; narrativeFrame excludes them.
  */
 export type VisualRegion =
+  | 'application'
   | 'story'
   | 'storyViewport'
   | 'narrativeFrame'
