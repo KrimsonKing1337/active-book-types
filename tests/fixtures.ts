@@ -6,7 +6,7 @@ export type SmokeParams = {
 };
 
 export const placement: VisualPlacement = {
-  coordinates: 'page',
+  coordinates: 'narrativeFrame',
   anchor: {
     region: 'frame',
     point: 'top-right',
@@ -43,7 +43,7 @@ export const smoke: VisualEffectInstance<SmokeParams> = {
   },
   placement,
   visibility: {
-    region: 'book',
+    region: 'story',
   },
   depth: {
     plane: 'aboveNarrative',

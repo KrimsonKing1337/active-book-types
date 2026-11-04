@@ -12,13 +12,13 @@ export type JsonObject = {
 };
 
 /**
- * Book is persistent and excludes editor UI.
- * bookViewport includes the player's controls; page excludes them.
+ * Story is the instance container and excludes editor UI.
+ * storyViewport includes controls; narrativeFrame excludes them.
  */
 export type VisualRegion =
-  | 'book'
-  | 'bookViewport'
-  | 'page'
+  | 'story'
+  | 'storyViewport'
+  | 'narrativeFrame'
   | 'frame'
   | 'narrativeViewport'
   | 'narrativeContent';
@@ -89,10 +89,10 @@ export type VisualFrameVisibility = {
 
 export type VisualVisibility = VisualNonFrameVisibility | VisualFrameVisibility;
 
-/** Background precedes scene; system feedback is host-owned and excluded. */
+/** Background precedes belowNarrative; system feedback is host-owned and excluded. */
 export type VisualPlane =
   | 'background'
-  | 'scene'
+  | 'belowNarrative'
   | 'aboveNarrative'
   | 'aboveControls';
 

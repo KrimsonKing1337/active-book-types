@@ -27,16 +27,17 @@ cannot check whether a string `definitionId` exists or matches the supplied para
 
 ## Coordinates and visibility
 
-- `book` is the persistent visual root of the player, including its own controls.
+- `story` is the persistent visual root of the player, including its own controls.
   It excludes editor UI and is not `document.body`.
-- `page` is the current page's visual area without book controls.
+- `storyViewport` is the visible work surface, including Toolbar.
+- `narrativeFrame` is the narrative and its frame, excluding Toolbar.
 - `frame` uses the frame's outer rectangle for coordinates and selected side bands
   for visibility. An empty side list displays nothing.
 - `narrativeViewport` is the stationary visible scroll area.
 - `narrativeContent` is the coordinate space moving with the scrolled content.
 
 Coordinates and visibility are independent. In particular, `narrativeContent`
-coordinates can use `book`, `page`, `frame`, `narrativeViewport`, or `narrativeContent`
+coordinates can use `story`, `storyViewport`, `narrativeFrame`, `frame`, `narrativeViewport`, or `narrativeContent`
 visibility. The editor may default to `narrativeViewport`; this is not a contract
 restriction. Words, characters, CSS selectors, and arbitrary DOM anchors are excluded.
 
@@ -55,12 +56,13 @@ The contract deliberately contains no mask-expression graph or animation engine.
 From back to front, the host places:
 
 1. Base book fill.
-2. `scene`: backgrounds, media, and effects behind narrative.
-3. Narrative.
-4. `aboveNarrative` effects.
-5. Book controls.
-6. `aboveControls` effects.
-7. Host-owned system feedback.
+2. `background` effects.
+3. `belowNarrative`: media and effects behind narrative.
+4. Narrative.
+5. `aboveNarrative` effects.
+6. Book controls.
+7. `aboveControls` effects.
+8. Host-owned system feedback.
 
 `depth.order` is an integer within the author plane. Equal values are ordered by
 instance ID in ascending string order. System feedback is not an author plane.
@@ -115,12 +117,16 @@ page limits. Validation reports invalid data without silently editing authored r
 These constraints do not introduce shared simulations, synchronization, multipass
 rendering, dependency graphs, narrative layout manipulation, or composition editing.
 
-Stage 5 adds `bookViewport`, the inner visible player area containing its page and
-controls (inside the persistent `book` root). Built-in backgrounds use it to
+The geometry includes `storyViewport`, the inner visible player area containing its page and
+controls (inside the persistent `story` root). Built-in backgrounds use it to
 preserve the existing image/video fit when the player is narrower than the book
-root. `page` still excludes the player's controls.
+root. `narrativeFrame` excludes the player's controls. Background and frame declarations
+fill `storyViewport` by default. A frame visibility mask still uses the
+`narrativeFrame` rectangle and measured narrative padding.
+Old visual region names and the old plane name are not accepted; page lifetimes,
+page IDs, `PageWrapper` and `BookRuntime` keep their domain meanings.
 
-The author plane order is `background`, `scene`, `aboveNarrative`, `aboveControls`.
+The author plane order is `background`, `belowNarrative`, `aboveNarrative`, `aboveControls`.
 A separate host-owned feedback layer remains outside `VisualPlane`, so flashlight
 and vibration feedback cannot be covered by an authored effect with a large order.
 
