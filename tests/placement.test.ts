@@ -1,120 +1,52 @@
 import type {
-  VisualEffectInstance,
-  VisualMask,
-  VisualPlane,
-  VisualRegion,
-  VisualVisibility,
+  AnchorPoint, VisualEffectInstance, VisualMask, VisualPlane, VisualPlacement, VisualRegion, VisualVisibility,
 } from '@active-book/types';
 
-import type { SmokeParams } from './fixtures.js';
+import { offset, smoke } from './fixtures.js';
 
-import { placement, smoke } from './fixtures.js';
-
-const visibilityRegions: readonly VisualVisibility[] = [
-  { region: 'application' },
-  { region: 'story' },
-  { region: 'storyViewport' },
-  { region: 'narrativeFrame' },
-  { region: 'narrativeViewport' },
-  { region: 'narrativeContent' },
-  {
-    region: 'frame',
-    sides: ['top', 'right', 'bottom', 'left'],
-  },
+const regions: VisualRegion[] = [
+  'application', 'story', 'storyViewport', 'narrativeFrame', 'frame', 'narrativeViewport', 'narrativeContent',
 ];
-
-// Scrolling coordinates do not require clipping to the narrative viewport.
-const scrollingEffects: VisualEffectInstance<SmokeParams>[] = visibilityRegions.map((visibility) => {
-  return {
-    ...smoke,
-    placement: {
-      ...placement,
-      coordinates: 'narrativeContent',
-    },
-    visibility,
-  };
-});
-
-const circle: VisualMask = {
-  type: 'circle',
-  center: placement.offset,
-  radius: {
-    value: 50,
-    unit: '%',
-  },
+const anchors: AnchorPoint[] = [
+  'top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right',
+];
+const surfaces: VisualPlacement[] = regions.map((region) => ({ region }));
+const anchored: VisualPlacement[] = anchors.map((anchor) => ({
+  region: 'storyViewport', anchor, offset, scale: 0.8, rotate: 30,
+}));
+const plain: VisualEffectInstance = {
+  id: 'plain', definitionId: 'example/plain', params: {},
+  placement: { region: 'narrativeContent' }, depth: { plane: 'background' },
 };
 
-const polygon: VisualMask = {
-  type: 'polygon',
-  points: [placement.offset, placement.offset, placement.offset],
-};
+const circle: VisualMask = { type: 'circle', center: offset, radius: { value: 50, unit: '%' } };
+const polygon: VisualMask = { type: 'polygon', points: [offset, offset, offset] };
+const visibility: VisualVisibility[] = [{}, { sides: ['left', 'right'] }, { sides: [] }, { mask: circle }, { mask: polygon }];
+const controlsPlane: VisualPlane = 'aboveStoryControls';
 
-const maskedFrame: VisualVisibility = {
-  region: 'frame',
-  sides: ['left', 'right'],
-  mask: circle,
-};
-
-const maskedBook: VisualVisibility = {
+const invalidPlacement: VisualPlacement = {
   region: 'story',
-  mask: polygon,
+  // @ts-expect-error Standard anchors are local points, not a second region/coordinate model.
+  anchor: { region: 'narrativeFrame', point: 'center' },
 };
-
-const emptyFrame: VisualVisibility = {
-  region: 'frame',
-  sides: [],
+const invalidVisibility: VisualVisibility = {
+  // @ts-expect-error Clipping belongs to the selected real DOM region.
+  region: 'storyViewport',
 };
-
-// @ts-expect-error Frame visibility must specify its sides.
-const missingSides: VisualVisibility = { region: 'frame' };
-
+const oldPlacement: VisualPlacement = {
+  // @ts-expect-error coordinates was removed rather than retained as a legacy alias.
+  coordinates: 'story',
+};
 const invalidSide: VisualVisibility = {
-  region: 'frame',
-  // @ts-expect-error Only the four frame sides are supported.
+  // @ts-expect-error Only the four actual frame sides are supported.
   sides: ['diagonal'],
 };
-
-// @ts-expect-error Arbitrary DOM targets are outside this contract.
-const wordCoordinates: VisualRegion = 'word';
-
-// @ts-expect-error document.body is not the book's visual root.
-const bodyCoordinates: VisualRegion = 'body';
-
-// @ts-expect-error System feedback is not an author plane.
-const systemPlane: VisualPlane = 'overlay';
-
-const invalidMask: VisualMask = {
-  type: 'circle',
-  center: placement.offset,
-  radius: {
-    value: 1,
-    // @ts-expect-error Contract lengths use CSS pixels or percentages.
-    unit: 'vw',
-  },
-};
-
-const playerBackground: VisualEffectInstance<SmokeParams> = {
-  ...smoke,
-  placement: { ...placement, coordinates: 'storyViewport' },
-  visibility: { region: 'storyViewport' },
-  depth: { plane: 'background', order: 0 },
-};
-void playerBackground;
-
-// System feedback is a host responsibility and cannot be authored as an effect plane.
-// @ts-expect-error system feedback is excluded from VisualPlane
-const systemPlane: VisualPlane = 'systemFeedback';
-void systemPlane;
-
-// Old geometry names and the old plane are intentionally unsupported.
-// @ts-expect-error The visual root is named story.
-const oldRoot: VisualRegion = 'book';
-// @ts-expect-error The visible work surface is named storyViewport.
-const oldViewport: VisualRegion = 'bookViewport';
-// @ts-expect-error Domain pages are not visual regions.
-const oldPage: VisualRegion = 'page';
-// @ts-expect-error Scene is reserved for future compositions.
-const oldPlane: VisualPlane = 'scene';
-
-const belowNarrativePlane: VisualPlane = 'belowNarrative';
-void [oldRoot, oldViewport, oldPage, oldPlane, belowNarrativePlane];
+// @ts-expect-error Arbitrary body targets remain outside the standard contract.
+const body: VisualRegion = 'body';
+// @ts-expect-error System feedback is runtime-owned.
+const feedback: VisualPlane = 'systemFeedback';
+// @ts-expect-error The old plane name is not a compatibility alias.
+const oldControls: VisualPlane = 'aboveControls';
+// @ts-expect-error Renderer resources are not serializable parameters.
+const callback: VisualEffectInstance = { ...smoke, params: { callback: () => {} } };
+void [surfaces, anchored, plain, visibility, controlsPlane, invalidPlacement, invalidVisibility, oldPlacement, invalidSide, body, feedback, oldControls, callback];

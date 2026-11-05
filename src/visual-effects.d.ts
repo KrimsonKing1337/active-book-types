@@ -52,19 +52,18 @@ export type VisualSize = {
   height: VisualLength;
 };
 
-/** Percentages use coordinates' width for X/width and height for Y/height. */
+/** Native CSS placement in one real DOM region; omitted options fill that region. */
 export type VisualPlacement = {
-  coordinates: VisualRegion;
-  anchor: {
-    region: VisualRegion;
-    point: AnchorPoint;
-  };
-  origin: AnchorPoint;
-  offset: VisualPoint;
-  size: VisualSize;
+  region: VisualRegion;
+  anchor?: AnchorPoint;
+  origin?: AnchorPoint;
+  offset?: VisualPoint;
+  size?: VisualSize;
+  scale?: number;
+  rotate?: number;
 };
 
-/** Shape coordinates use the visibility region; percentage radius uses its smaller dimension. */
+/** Values map directly to native CSS clip-path circle()/polygon() semantics. */
 export type VisualMask =
   | {
       type: 'circle';
@@ -76,31 +75,23 @@ export type VisualMask =
       points: readonly VisualPoint[];
     };
 
-/** Independent of placement, including when coordinates are narrativeContent. */
-export type VisualNonFrameVisibility = {
-  region: Exclude<VisualRegion, 'frame'>;
+/** Masks apply to the selected placement region; frame defaults to its four padding bands. */
+export type VisualVisibility = {
+  sides?: readonly FrameSide[];
   mask?: VisualMask;
 };
-
-export type VisualFrameVisibility = {
-  region: 'frame';
-  sides: readonly FrameSide[];
-  mask?: VisualMask;
-};
-
-export type VisualVisibility = VisualNonFrameVisibility | VisualFrameVisibility;
 
 /** Background precedes belowNarrative; system feedback is host-owned and excluded. */
 export type VisualPlane =
   | 'background'
   | 'belowNarrative'
   | 'aboveNarrative'
-  | 'aboveControls';
+  | 'aboveStoryControls';
 
 export type VisualDepth = {
   plane: VisualPlane;
   /** Integer order within the plane; equal values are ordered by instance ID. */
-  order: number;
+  order?: number;
 };
 
 export type VisualEffectInstance<Params extends JsonObject = JsonObject> = {
@@ -108,7 +99,7 @@ export type VisualEffectInstance<Params extends JsonObject = JsonObject> = {
   definitionId: string;
   params: Params;
   placement: VisualPlacement;
-  visibility: VisualVisibility;
+  visibility?: VisualVisibility;
   depth: VisualDepth;
 };
 
