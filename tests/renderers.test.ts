@@ -6,6 +6,7 @@ import type {
   VisualEffectDefinition,
   VisualPlayback,
   VisualRendererProps,
+  VisualRegionElements,
 } from '@active-book/types';
 
 import type { SmokeParams } from './fixtures.js';
@@ -26,23 +27,27 @@ const definition: VisualEffectDefinition<SmokeParams> = {
   Renderer,
 };
 
+const regions: VisualRegionElements = {
+  application: null,
+  story: null,
+  storyViewport: null,
+  narrativeFrame: null,
+  frame: null,
+  narrativeViewport: null,
+  narrativeContent: null,
+};
+
 const rendererProps: VisualRendererProps<SmokeParams> = {
   id: smoke.id,
   params: smoke.params,
-  geometry: {
-    width: 800,
-    height: 600,
-  },
+  regions,
   ref: playbackRef,
 };
 
 const staticProps: VisualRendererProps<SmokeParams> = {
   id: smoke.id,
   params: smoke.params,
-  geometry: {
-    width: 800,
-    height: 600,
-  },
+  regions,
 };
 
 const staticController: VisualEffectController = {
@@ -82,3 +87,13 @@ const nativeMode: 'editor' | 'reader' = native.book.mode;
 const nativeRef: Ref<VisualPlayback> | undefined = native.ref;
 // @ts-expect-error Native visual parameters are JSON; callback resources stay in the renderer.
 const badNativeParams: SmokeParams = { callback: () => {} };
+
+const narrativeElement: HTMLElement | null = native.regions.narrativeFrame;
+// @ts-expect-error Region references are read-only to renderer consumers.
+native.regions.story = null;
+const oldRendererProps: VisualRendererProps<SmokeParams> = {
+  ...rendererProps,
+  // @ts-expect-error Ordinary renderers no longer receive mandatory measured dimensions.
+  geometry: { width: 800, height: 600 },
+};
+void [narrativeElement, oldRendererProps];

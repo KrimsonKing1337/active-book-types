@@ -1,6 +1,6 @@
 import type { ComponentType, Ref } from 'react';
 
-import type { JsonObject } from './visual-effects.js';
+import type { JsonObject, VisualRegion } from './visual-effects.js';
 
 /** Optional renderer capability; play resumes, pause preserves position, stop resets it. */
 export type VisualPlayback = {
@@ -9,16 +9,13 @@ export type VisualPlayback = {
   stop: () => void;
 };
 
-/** Resolved surface dimensions in CSS pixels, without application DOM references. */
-export type VisualGeometry = {
-  width: number;
-  height: number;
-};
+/** Actual permitted DOM containers. Frame aliases narrativeFrame; absent regions are null. */
+export type VisualRegionElements = Readonly<Record<VisualRegion, HTMLElement | null>>;
 
 export type VisualRendererProps<Params extends JsonObject = JsonObject> = {
   id: string;
   params: Params;
-  geometry: VisualGeometry;
+  regions: VisualRegionElements;
   /** React 19 ref prop. Static renderers do not have to expose playback. */
   ref?: Ref<VisualPlayback>;
 };

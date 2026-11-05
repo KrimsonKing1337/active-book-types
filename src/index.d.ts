@@ -27,7 +27,7 @@ export type {
 
 export type {
   VisualPlayback,
-  VisualGeometry,
+  VisualRegionElements,
   VisualRendererProps,
   VisualEffectDefinition,
   VisualEffectController,

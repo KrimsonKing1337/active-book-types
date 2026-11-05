@@ -103,7 +103,10 @@ pages preserves the instance, including when they belong to separate listed rang
 
 Playback is optional. A static renderer can omit playback entirely; destruction is
 part of the host's common lifecycle. `VisualRendererProps.ref` is an ordinary React 19
-prop for renderers exposing playback. `geometry` contains surface dimensions in CSS
+prop for renderers exposing playback. `regions` contains read-only references to the actual permitted DOM containers.
+An ordinary renderer fills its CSS surface without measuring the book. A custom
+renderer may observe only the elements it needs (for example, a Canvas or a
+cross-region artistic origin); no geometry pipeline or animation-state restoration is required.
 pixels and does not expose application DOM references. Resources are cleaned up by
 the renderer on unmount, including pending asynchronous work.
 
@@ -119,33 +122,8 @@ page limits. Validation reports invalid data without silently editing authored r
 These constraints do not introduce shared simulations, synchronization, multipass
 rendering, dependency graphs, narrative layout manipulation, or composition editing.
 
-The geometry includes `storyViewport`, the inner visible player area containing its page and
-controls (inside the persistent `story` root). Built-in backgrounds use it to
-preserve the existing image/video fit when the player is narrower than the book
-root. `narrativeFrame` excludes the player's controls. Background and frame declarations
-fill `storyViewport` by default. A frame visibility mask still uses the
-`narrativeFrame` rectangle and measured narrative padding.
-Old visual region names and the old plane name are not accepted; page lifetimes,
-page IDs, `PageWrapper` and `BookRuntime` keep their domain meanings.
-
-The author plane order is `background`, `belowNarrative`, `aboveNarrative`, `aboveControls`.
-A separate host-owned feedback layer remains outside `VisualPlane`, so flashlight
-and vibration feedback cannot be covered by an authored effect with a large order.
-
-
-## Native package visual exports (stage 6)
-
-A TGZ visual export receives `BookVisualRendererProps<Params>`: the ordinary
-`VisualRendererProps` plus the host's `book: BookRuntime`. It may expose playback
-through the React 19 `ref` prop. Allocate and release instance resources in the
-renderer; exports and controllers never enter authored descriptions.
-
-The existing manifest has separate `components` (inline text insertions) and
-`visualEffects` (native definitions) sections. A visual entry includes `category`
-(`background` or `frame`), `entry`, `export`, `title`, optional `styles`, and JSON
-`defaultParams`. JSON instances use `custom.background/<package>/<name>` or
-`custom.frame/<package>/<name>`. `params.custom` carries custom data and optional
-`params.componentKey` selects nested React identity. Equal data does not update a
-registration; a changed key remounts the nested export while preserving its owning
-registration. Ordinary CSS backgrounds can still use `book.hooks.useBackground`;
-the old ReactNode `Component` parameter has been removed.
+`regions.storyViewport` is the actual visible book viewport including its controls.
+`narrativeFrame` excludes the controls; `frame` aliases that same element for side masking.
+`narrativeViewport` is the fixed overlay container, while `narrativeContent` scrolls
+with its text. `application` is available in both a real reader and an embedded preview.
+References become null when their book session is destroyed.
