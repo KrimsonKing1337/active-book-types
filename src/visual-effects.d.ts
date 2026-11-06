@@ -20,7 +20,9 @@ export type VisualRegion =
   | 'story'
   | 'storyViewport'
   | 'narrativeFrame'
-  | 'frame'
+  | 'storyViewportFrame'
+  | 'toolbar'
+  | 'toolbarFrame'
   | 'narrativeViewport'
   | 'narrativeContent';
 
@@ -75,9 +77,10 @@ export type VisualMask =
       points: readonly VisualPoint[];
     };
 
-/** Masks apply to the selected placement region; frame defaults to its four padding bands. */
+/** Every region is a rectangle. Side masks and their width are explicit and independent of layout padding. */
 export type VisualVisibility = {
   sides?: readonly FrameSide[];
+  frameWidth?: VisualLength;
   mask?: VisualMask;
 };
 

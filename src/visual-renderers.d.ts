@@ -9,7 +9,7 @@ export type VisualPlayback = {
   stop: () => void;
 };
 
-/** Actual permitted DOM containers. Frame aliases narrativeFrame; absent regions are null. */
+/** Actual permitted rectangular DOM containers; absent regions are null. */
 export type VisualRegionElements = Readonly<Record<VisualRegion, HTMLElement | null>>;
 
 export type VisualRendererProps<Params extends JsonObject = JsonObject> = {

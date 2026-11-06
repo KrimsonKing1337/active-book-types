@@ -5,7 +5,7 @@ import type {
 import { offset, smoke } from './fixtures.js';
 
 const regions: VisualRegion[] = [
-  'application', 'story', 'storyViewport', 'narrativeFrame', 'frame', 'narrativeViewport', 'narrativeContent',
+  'application', 'story', 'storyViewport', 'narrativeFrame', 'storyViewportFrame', 'toolbar', 'toolbarFrame', 'narrativeViewport', 'narrativeContent',
 ];
 const anchors: AnchorPoint[] = [
   'top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right',
@@ -50,3 +50,7 @@ const oldControls: VisualPlane = 'aboveControls';
 // @ts-expect-error Renderer resources are not serializable parameters.
 const callback: VisualEffectInstance = { ...smoke, params: { callback: () => {} } };
 void [surfaces, anchored, plain, visibility, controlsPlane, invalidPlacement, invalidVisibility, oldPlacement, invalidSide, body, feedback, oldControls, callback];
+
+// @ts-expect-error the ambiguous frame alias is not part of the final contract
+const removedFrame: VisualRegion = 'frame';
+void removedFrame;

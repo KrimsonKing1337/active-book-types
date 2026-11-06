@@ -32,7 +32,9 @@ const regions: VisualRegionElements = {
   story: null,
   storyViewport: null,
   narrativeFrame: null,
-  frame: null,
+  storyViewportFrame: null,
+  toolbar: null,
+  toolbarFrame: null,
   narrativeViewport: null,
   narrativeContent: null,
 };
