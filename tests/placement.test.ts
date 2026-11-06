@@ -21,7 +21,22 @@ const plain: VisualEffectInstance = {
 
 const circle: VisualMask = { type: 'circle', center: offset, radius: { value: 50, unit: '%' } };
 const polygon: VisualMask = { type: 'polygon', points: [offset, offset, offset] };
-const visibility: VisualVisibility[] = [{}, { sides: ['left', 'right'] }, { sides: [] }, { mask: circle }, { mask: polygon }];
+const visibility: VisualVisibility[] = [
+  {},
+  { sides: ['left', 'right'], frameWidth: { value: 12, unit: 'px' } },
+  {
+    sides: ['top', 'left'],
+    frameWidth: {
+      top: { value: 12, unit: 'px' },
+      right: { value: 24, unit: 'px' },
+      bottom: { value: 12, unit: 'px' },
+      left: { value: 24, unit: 'px' },
+    },
+  },
+  { sides: [] },
+  { mask: circle },
+  { mask: polygon },
+];
 const controlsPlane: VisualPlane = 'aboveStoryControls';
 
 const invalidPlacement: VisualPlacement = {
