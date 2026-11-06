@@ -44,6 +44,9 @@ export type VisualLength = {
   unit: 'px' | '%';
 };
 
+/** One width for every side, or explicit independent widths for all four sides. */
+export type VisualFrameWidth = VisualLength | Record<FrameSide, VisualLength>;
+
 export type VisualPoint = {
   x: VisualLength;
   y: VisualLength;
@@ -77,10 +80,10 @@ export type VisualMask =
       points: readonly VisualPoint[];
     };
 
-/** Every region is a rectangle. Side masks and their width are explicit and independent of layout padding. */
+/** Every region is a rectangle. Side masks and their uniform or per-side widths are independent of layout padding. */
 export type VisualVisibility = {
   sides?: readonly FrameSide[];
-  frameWidth?: VisualLength;
+  frameWidth?: VisualFrameWidth;
   mask?: VisualMask;
 };
 
