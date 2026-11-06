@@ -33,7 +33,7 @@ the artwork's propagation origin, which belongs to renderer parameters or custom
 
 `visibility` is optional. `sides` selects frame bands; an explicit empty array paints none.
 Without `sides`, every region fills its entire rectangle, including names ending in Frame.
-`frameWidth?: VisualLength` controls the mask band width (default 12px); it does not change
+`frameWidth?: VisualFrameWidth` accepts either one `VisualLength` for all sides or an object with independent `top`, `right`, `bottom`, `left` lengths (px/%). The default is 12px per side. It does not change
 text or Toolbar padding. Rectangle selection, mask, plane and order are independent. Circle/polygon masks map directly to native
 CSS clip-path semantics, including native percentage-radius behavior. The selected real
 region and its ancestors provide clipping and rounded corners. There is no independent
