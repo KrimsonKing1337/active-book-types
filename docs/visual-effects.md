@@ -19,9 +19,11 @@ const registration: VisualEffectRegistration = {
 
 ## Placement and clipping
 
-Regions are `application`, `story`, `storyViewport` (including controls), `narrativeFrame`,
-`frame`, `narrativeViewport` and `narrativeContent`. Frame uses the actual NarrativeFrame
-and masks its padding bands. Viewport overlays stay fixed; content surfaces scroll with text.
+All nine regions are actual rectangles: `application`, `story`, `storyViewport`,
+`storyViewportFrame`, `narrativeFrame`, `narrativeViewport`, `narrativeContent`,
+`toolbar`, `toolbarFrame`. `storyViewportFrame` spans the whole viewport including Toolbar;
+`toolbarFrame` includes its layout padding and `toolbar` contains the controls.
+Viewport overlays stay fixed; content surfaces scroll with text. There is no `frame` alias.
 
 The default is a full-region CSS fill. Optional anchor/origin values use nine standard points:
 `top-left`, `top`, `top-right`, `left`, `center`, `right`, `bottom-left`, `bottom`, `bottom-right`.
@@ -30,7 +32,9 @@ The origin defaults to the anchor. Offsets and sizes use CSS px or percent value
 the artwork's propagation origin, which belongs to renderer parameters or custom logic.
 
 `visibility` is optional. `sides` selects frame bands; an explicit empty array paints none.
-A frame region without sides selects all four. Circle/polygon masks map directly to native
+Without `sides`, every region fills its entire rectangle, including names ending in Frame.
+`frameWidth?: VisualLength` controls the mask band width (default 12px); it does not change
+text or Toolbar padding. Rectangle selection, mask, plane and order are independent. Circle/polygon masks map directly to native
 CSS clip-path semantics, including native percentage-radius behavior. The selected real
 region and its ancestors provide clipping and rounded corners. There is no independent
 visibility region, coordinate resolver or geometric fallback.
@@ -44,8 +48,7 @@ the isolated application boundary.
 ## Renderer lifetime and custom work
 
 `VisualRendererProps` supplies `id`, JSON `params`, permitted `regions` element handles and an
-optional React 19 playback ref. `regions` includes all seven region names; `frame` aliases
-`narrativeFrame`. Unavailable elements are null. The handles are valid during this activation;
+optional React 19 playback ref. `regions` includes all nine region names. Unavailable elements are null. The handles are valid during this activation;
 do not retain them after renderer cleanup.
 
 Custom renderers may create CSS, WAAPI, Canvas/WebGL or portals in permitted containers.
