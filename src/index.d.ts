@@ -7,7 +7,7 @@ export type * from './visual-effects.js';
 export type * from './visual-renderers.js';
 
 // Minimal public view of a registered audio instance.
-// The actual implementation belongs to activeBook-core.
+// The actual implementation belongs to @active-book/core.
 export type BookAudioInstance = {
   readonly id: string;
   playing: () => boolean;

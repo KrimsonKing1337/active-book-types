@@ -10,8 +10,8 @@ Clone next to the custom-component repository (both repos checked out as sibling
 and install its development types:
 
 ```sh
-cd ../activeBook-types
-npm install
+cd ../active-book-types
+npm ci
 ```
 
 Then add to the custom-component repository:
@@ -19,7 +19,7 @@ Then add to the custom-component repository:
 ```json
 {
   "devDependencies": {
-    "@active-book/types": "file:../activeBook-types"
+    "@active-book/types": "file:../active-book-types"
   }
 }
 ```
@@ -45,7 +45,7 @@ Redux `audioEffectsSelectors.audioInstances` (`state.audioEffects.audioInstances
 `audio`, `play`, `pause`, `stop` and `remove`. Follow the Rules of Hooks when calling it.
 
 This is an experimental contract; coordinate changes to this package with
-`activeBook-editor` and `activeBook-custom-test`. The package is intentionally private until
+`active-book-editor` and `active-book-custom-test`. The package is intentionally private until
 the public API has stabilized.
 
 Background effects are registered through `book.hooks.useBackground({ id, kind, image, video, shadow, style })`.
