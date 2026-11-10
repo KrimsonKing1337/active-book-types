@@ -77,7 +77,7 @@ exports. They emit no JavaScript. Both NodeNext and Bundler resolution are check
 ## Shared development infrastructure
 
 Clone the ActiveBook repositories as siblings. Install `active-book-common` first,
-then this repository; it has the devDependency `active-book-common: file:../active-book-common`.
+then this repository; it has the devDependency `@active-book/common: file:../active-book-common`.
 Read `../active-book-common/AGENTS.md` before the local AGENTS.md.
 Shared configurations load directly through the common package exports; no copied
 configuration snapshots or standalone-clone fallback are maintained.

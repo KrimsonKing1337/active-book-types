@@ -17,5 +17,5 @@
   "include": [
     "src/**/*.d.ts"
   ],
-  "extends": "active-book-common/tsconfig.base.json"
+  "extends": "@active-book/common/tsconfig.base.json"
 }

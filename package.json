@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.0",
-    "active-book-common": "file:../active-book-common",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "@active-book/common": "file:../active-book-common"
   },
   "repository": {
     "type": "git",
