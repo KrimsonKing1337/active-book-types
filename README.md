@@ -72,3 +72,11 @@ npm run test:bundler
 
 The tests compile valid and intentionally invalid consumers of the public package
 exports. They emit no JavaScript. Both NodeNext and Bundler resolution are checked.
+
+## Shared development infrastructure
+
+When available, first read `../active-book-common/AGENTS.md`, then the local
+AGENTS.md. It also includes standalone guidance when common is not mounted.
+The common check runner calls this repository's existing `typecheck`, `test`
+and `test:bundler` scripts. Tool configurations and package installation remain
+local; the common dependency commands are optional maintenance tools.
