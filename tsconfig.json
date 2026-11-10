@@ -3,12 +3,19 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2022", "DOM"],
-    "types": ["react"],
-    "strict": true,
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "types": [
+      "react"
+    ],
     "exactOptionalPropertyTypes": true,
     "skipLibCheck": false,
     "noEmit": true
   },
-  "include": ["src/**/*.d.ts"]
+  "include": [
+    "src/**/*.d.ts"
+  ],
+  "extends": "active-book-common/tsconfig.base.json"
 }

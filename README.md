@@ -73,10 +73,19 @@ npm run test:bundler
 The tests compile valid and intentionally invalid consumers of the public package
 exports. They emit no JavaScript. Both NodeNext and Bundler resolution are checked.
 
+
 ## Shared development infrastructure
 
-When available, first read `../active-book-common/AGENTS.md`, then the local
-AGENTS.md. It also includes standalone guidance when common is not mounted.
-The common check runner calls this repository's existing `typecheck`, `test`
-and `test:bundler` scripts. Tool configurations and package installation remain
-local; the common dependency commands are optional maintenance tools.
+Clone the ActiveBook repositories as siblings. Install `active-book-common` first,
+then this repository; it has the devDependency `active-book-common: file:../active-book-common`.
+Read `../active-book-common/AGENTS.md` before the local AGENTS.md.
+Shared configurations load directly through the common package exports; no copied
+configuration snapshots or standalone-clone fallback are maintained.
+
+The common repository supplies grouped `check`, `typecheck`, `lint`, and `test`
+commands, each with `--repo` filtering. `check` and `test` include browser/runtime
+suites; choose `test:unit` or another subgroup for a narrower run. `deps:sync`
+applies standard npm section policies to already declared packages and workspaces.
+See the common README for installation order, groups, presets and policy semantics.
+
+TypeScript extends the common base; NodeNext, declaration-only sources and exact optional semantics remain local. `test:unit` checks NodeNext contracts; `test:bundler` checks Bundler contracts.
