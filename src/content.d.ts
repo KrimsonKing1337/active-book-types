@@ -16,11 +16,11 @@ export type BookTextMarkDefaultTypes =
 export type BookTextMark =
   | {
       type: BookTextMarkDefaultTypes;
-  }
+    }
   | {
       type: 'link';
       attrs: BookLinkAttributes;
-  };
+    };
 
 export type BookTextNode = {
   type: 'text';
