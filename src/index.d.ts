@@ -5,6 +5,7 @@ import type { VisualRendererProps } from './visual-renderers.js';
 
 export type * from './visual-effects.js';
 export type * from './visual-renderers.js';
+export type * from './content.js';
 
 // Minimal public view of a registered audio instance.
 // The actual implementation belongs to @active-book/core.
