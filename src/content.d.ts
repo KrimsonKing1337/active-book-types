@@ -58,8 +58,21 @@ export type BookComponentNode = {
   };
 };
 
-export type BookBlockNode = BookParagraphNode | BookHeadingNode | BookComponentNode;
-export type BookContentNode = BookBlockNode | BookInlineNode;
+/** Ordinary blocks usable in a slide; carousels and segments are deliberately excluded. */
+export type BookSlideBlockNode = BookParagraphNode | BookHeadingNode | BookComponentNode;
+
+export type BookCarouselSlideNode = {
+  type: 'carouselSlide';
+  content: BookSlideBlockNode[];
+};
+
+export type BookCarouselNode = {
+  type: 'carousel';
+  content: BookCarouselSlideNode[];
+};
+
+export type BookBlockNode = BookSlideBlockNode | BookCarouselNode;
+export type BookContentNode = BookBlockNode | BookInlineNode | BookCarouselSlideNode;
 
 export type BookContentDocument = {
   type: 'doc';

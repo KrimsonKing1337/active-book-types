@@ -1,6 +1,8 @@
 import type {
   BookContentDocument,
   BookContentNode,
+  BookCarouselNode,
+  BookCarouselSlideNode,
   BookTextMark,
 } from '@active-book/types';
 
@@ -46,3 +48,29 @@ const invalidMark: BookTextMark = {
 };
 
 void [document, invalidHeading, obsolete, invalidMark];
+
+const carousel: BookCarouselNode = {
+  type: 'carousel',
+  content: [{
+    type: 'carouselSlide',
+    content: [
+      { type: 'paragraph', content: [{ type: 'text', text: 'Slide', marks }] },
+      { type: 'heading', attrs: { level: 2 } },
+      { type: 'coreComponent', attrs: { name: 'Badge', package: 'fixture-parts' } },
+    ],
+  }],
+};
+
+const invalidSlide: BookCarouselSlideNode = {
+  type: 'carouselSlide',
+  // @ts-expect-error A carousel is not an ordinary slide block.
+  content: [carousel],
+};
+
+const slideAtRoot: BookContentDocument = {
+  type: 'doc',
+  // @ts-expect-error Slides must be children of a carousel.
+  content: [carousel.content[0]],
+};
+
+void [carousel, invalidSlide, slideAtRoot];
