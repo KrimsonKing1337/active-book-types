@@ -6,11 +6,20 @@ export type BookLinkAttributes = {
   class?: string | null;
 };
 
+export type BookTextMarkDefaultTypes =
+  | 'bold'
+  | 'italic'
+  | 'strike'
+  | 'underline'
+  | 'code';
+
 export type BookTextMark =
-  | { type: 'bold' | 'italic' | 'strike' | 'underline' | 'code' }
   | {
-    type: 'link';
-    attrs: BookLinkAttributes;
+      type: BookTextMarkDefaultTypes;
+  }
+  | {
+      type: 'link';
+      attrs: BookLinkAttributes;
   };
 
 export type BookTextNode = {
@@ -31,9 +40,13 @@ export type BookParagraphNode = {
   content?: BookInlineNode[];
 };
 
+export type BookHeadingNodeAttrs = {
+  level: 1 | 2;
+}
+
 export type BookHeadingNode = {
   type: 'heading';
-  attrs: { level: 1 | 2 };
+  attrs: BookHeadingNodeAttrs;
   content?: BookInlineNode[];
 };
 
