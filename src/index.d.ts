@@ -1,4 +1,8 @@
-import type { ComponentType, PropsWithChildren, CSSProperties } from 'react';
+import type {
+  ComponentType,
+  PropsWithChildren,
+  CSSProperties,
+} from 'react';
 
 import type { JsonObject } from './visual-effects.js';
 import type { VisualRendererProps } from './visual-renderers.js';
@@ -6,6 +10,7 @@ import type { VisualRendererProps } from './visual-renderers.js';
 export type * from './visual-effects.js';
 export type * from './visual-renderers.js';
 export type * from './content.js';
+export type * from './media.js';
 export type * from './dialog.js';
 
 // Minimal public view of a registered audio instance.
@@ -67,7 +72,7 @@ type BookRuntimeComponents = {
   P: ComponentType<PropsWithChildren>;
   H1: ComponentType<PropsWithChildren>;
   H2: ComponentType<PropsWithChildren>;
-}
+};
 
 type BookRuntimeHooks = {
   useAudioController: (id: string) => BookAudioController;

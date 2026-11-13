@@ -1,3 +1,5 @@
+import type { BookImageNode, BookVideoNode } from './media.js';
+
 /** The supported ProseMirror JSON contract. These declarations contain no editor or runtime implementation. */
 export type BookLinkAttributes = {
   href: string;
@@ -15,12 +17,12 @@ export type BookTextMarkDefaultTypes =
 
 export type BookTextMark =
   | {
-      type: BookTextMarkDefaultTypes;
-    }
+    type: BookTextMarkDefaultTypes;
+  }
   | {
-      type: 'link';
-      attrs: BookLinkAttributes;
-    };
+    type: 'link';
+    attrs: BookLinkAttributes;
+  };
 
 export type BookTextNode = {
   type: 'text';
@@ -42,7 +44,7 @@ export type BookParagraphNode = {
 
 export type BookHeadingNodeAttrs = {
   level: 1 | 2;
-}
+};
 
 export type BookHeadingNode = {
   type: 'heading';
@@ -59,7 +61,12 @@ export type BookComponentNode = {
 };
 
 /** Ordinary blocks usable in a slide; carousels and segments are deliberately excluded. */
-export type BookSlideBlockNode = BookParagraphNode | BookHeadingNode | BookComponentNode;
+export type BookSlideBlockNode =
+  | BookParagraphNode
+  | BookHeadingNode
+  | BookComponentNode
+  | BookImageNode
+  | BookVideoNode;
 
 export type BookCarouselSlideNode = {
   type: 'carouselSlide';
