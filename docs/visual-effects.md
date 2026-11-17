@@ -1,8 +1,9 @@
-# Visual effects on actual story regions
+# Визуальные эффекты на DOM-регионах книги
 
-A definition owns its React renderer and JSON defaults. A registration adds the instance's
-region, layer and page/range lifetime. An ordinary renderer fills its surface with CSS;
-it does not receive or need a measured table of story geometry.
+Определение (`definition`) владеет React-renderer и начальными JSON-параметрами.
+Регистрация добавляет экземпляру регион, слой и время жизни страницы/диапазона.
+Обычный renderer заполняет поверхность средствами CSS; таблица измеренной геометрии
+книги ему не передаётся и не требуется.
 
 ```ts
 const registration: VisualEffectRegistration = {
@@ -13,55 +14,63 @@ const registration: VisualEffectRegistration = {
     placement: { region: 'narrativeFrame' },
     depth: { plane: 'aboveNarrative' },
   },
-  lifetime: { type: 'range', range: [{ from: 1, to: 2 }, { from: 4, to: 4 }] },
+  lifetime: {
+    type: 'range',
+    range: [{ from: 1, to: 2 }, { from: 4, to: 4 }],
+  },
 };
 ```
 
-## Placement and clipping
+## Размещение и clipping
 
-All nine regions are actual rectangles: `application`, `story`, `storyViewport`,
-`storyViewportFrame`, `narrativeFrame`, `narrativeViewport`, `narrativeContent`,
-`toolbar`, `toolbarFrame`. `storyViewportFrame` spans the whole viewport including Toolbar;
-`toolbarFrame` includes its layout padding and `toolbar` contains the controls.
-Viewport overlays stay fixed; content surfaces scroll with text. There is no `frame` alias.
+Девять регионов соответствуют реальным прямоугольным контейнерам: `application`,
+`story`, `storyViewport`, `storyViewportFrame`, `narrativeFrame`, `narrativeViewport`,
+`narrativeContent`, `toolbar`, `toolbarFrame`. `storyViewportFrame` включает весь viewport
+с Toolbar; `toolbarFrame` включает layout padding, а `toolbar` — сами элементы управления.
+Viewport overlays остаются неподвижными; поверхности содержимого прокручиваются с текстом.
+Псевдонима `frame` нет.
 
-The default is a full-region CSS fill. Optional anchor/origin values use nine standard points:
-`top-left`, `top`, `top-right`, `left`, `center`, `right`, `bottom-left`, `bottom`, `bottom-right`.
-The origin defaults to the anchor. Offsets and sizes use CSS px or percent values. Optional
-`scale` and `rotate` (degrees) use CSS transforms. The surface's position is independent of
-the artwork's propagation origin, which belongs to renderer parameters or custom logic.
+По умолчанию поверхность заполняет регион через CSS. Необязательные anchor/origin
+используют девять точек: `top-left`, `top`, `top-right`, `left`, `center`, `right`,
+`bottom-left`, `bottom`, `bottom-right`. Origin по умолчанию совпадает с anchor.
+Смещения и размеры задаются в px или %. `scale` и `rotate` (градусы) используют CSS transforms.
+Позиция поверхности независима от художественной точки распространения эффекта:
+её задают параметры renderer или его собственная логика.
 
-`visibility` is optional. `sides` selects frame bands; an explicit empty array paints none.
-Without `sides`, every region fills its entire rectangle, including names ending in Frame.
-`frameWidth?: VisualFrameWidth` accepts either one `VisualLength` for all sides or an object with independent `top`, `right`, `bottom`, `left` lengths (px/%). The default is 12px per side. It does not change
-text or Toolbar padding. Rectangle selection, mask, plane and order are independent. Circle/polygon masks map directly to native
-CSS clip-path semantics, including native percentage-radius behavior. The selected real
-region and its ancestors provide clipping and rounded corners. There is no independent
-visibility region, coordinate resolver or geometric fallback.
+`visibility` необязателен. `sides` выбирает полосы рамки; пустой массив не рисует ни одной.
+Без `sides` любой регион заполняет весь свой прямоугольник, включая имена с окончанием Frame.
+`frameWidth?: VisualFrameWidth` принимает одну `VisualLength` для всех сторон либо объект
+с независимыми `top`, `right`, `bottom`, `left` в px/%. По умолчанию — 12px на сторону.
+Это не меняет отступы текста или Toolbar. Регион, mask, plane и order независимы.
+Круглые/полигональные маски следуют native CSS clip-path, включая процентный радиус.
+Clipping и скругления задают выбранный DOM-регион и его предки; отдельного visibility region,
+общего coordinate resolver или геометрического fallback нет.
 
-Layers are `background`, `belowNarrative`, `aboveNarrative`, `aboveStoryControls`. Integer
-`order` defaults to zero; ties are ordered lexically by instance ID. For application,
-background is the external underlay and other author layers are the external overlay.
-System feedback and editor selection have protected runtime hosts. Editor tools stay outside
-the isolated application boundary.
+Слои: `background`, `belowNarrative`, `aboveNarrative`, `aboveStoryControls`.
+Целый `order` по умолчанию равен нулю; равные значения упорядочиваются лексически по ID.
+Для application background является внешней подложкой, остальные авторские слои —
+внешним overlay. Системные уведомления и выделение редактора имеют защищённые hosts;
+инструменты редактора находятся вне изолированной границы приложения.
 
-## Renderer lifetime and custom work
+## Жизненный цикл renderer
 
-`VisualRendererProps` supplies `id`, JSON `params`, permitted `regions` element handles and an
-optional React 19 playback ref. `regions` includes all nine region names. Unavailable elements are null. The handles are valid during this activation;
-do not retain them after renderer cleanup.
+`VisualRendererProps` содержит `id`, JSON `params`, разрешённые DOM-элементы `regions`
+и необязательный playback ref React 19. В `regions` есть все девять имён, отсутствующие
+элементы равны null. Ссылки действительны в текущей активации; не сохраняйте их после cleanup.
 
-Custom renderers may create CSS, WAAPI, Canvas/WebGL or portals in permitted containers.
-They may measure specific elements and use ResizeObserver when required by their artwork.
-No global measurement pipeline or animation-state serialization is provided.
+Renderer может использовать CSS, WAAPI, Canvas/WebGL и portals в разрешённых контейнерах,
+измерять нужные ему элементы и применять ResizeObserver. Общей подсистемы измерений
+или сериализации состояния анимации контракт не предоставляет.
 
-`play()` starts/resumes, `pause()` holds and `stop()` cancels/reset playback. Static renderers
-may omit playback. Page-only instances unmount at the end of activation. Range instances keep
-React, DOM and native Animation identity across active page changes, including disjoint ranges
-when an inactive page is not visited. Leaving the active range cancels and unmounts the renderer;
-a later activation starts fresh. Destroying the book unmounts its persistent shell and renderers.
+`play()` запускает/продолжает, `pause()` удерживает позицию, `stop()` отменяет/сбрасывает
+воспроизведение. Статический renderer может не предоставлять playback.
+Page-экземпляры размонтируются в конце активации. Range-экземпляры сохраняют React,
+DOM и native Animation identity между активными страницами, в том числе разрывными
+диапазонами, если не посещена неактивная страница. Выход из диапазона отменяет и
+размонтирует renderer; следующая активация начинается заново. Уничтожение книги
+размонтирует её постоянную оболочку и renderers.
 
-BookVisualRendererProps adds the existing BookRuntime capabilities for native library renderers.
-Renderer code/resources stay outside serialized registrations. TypeScript constrains JSON shapes;
-the host validates finite non-cyclic JSON and the builder validates placement/lifetimes at its boundary.
-There are no aliases or migrations for the previous geometry contract.
+`BookVisualRendererProps` добавляет возможности BookRuntime для native renderer библиотеки.
+Код и ресурсы renderer не сериализуются в регистрации. TypeScript ограничивает форму JSON;
+host проверяет конечный нециклический JSON, а builder — placement и lifetimes на своей границе.
+Псевдонимы и миграции предыдущего геометрического контракта не предоставляются.

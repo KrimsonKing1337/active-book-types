@@ -1,29 +1,28 @@
-# Block media
+# Блочные медиа
 
-`image` and `video` are atomic content nodes, permitted at document root and in
-carouselSlide alongside paragraph/heading/coreComponent. They cannot contain
-children or appear inside paragraph/heading. Inline media, floats, captions and
-click-to-open galleries are outside this contract.
+`image` и `video` — атомарные узлы содержимого. Они разрешены в корне документа и в
+`carouselSlide` рядом с paragraph/heading/coreComponent. У них нет дочерних узлов;
+внутри paragraph/heading они не допускаются. Inline-медиа, обтекание, подписи и
+галереи по нажатию не входят в этот контракт.
 
-Both require `attrs.src`: a canonical project file path under `assets/`, with
-neither leading slash nor `./`. Runtime validation rejects traversal, backslashes,
-empty segments, URLs (including blob/data) and control characters. Paths describe
-file names, not already URL-encoded values; the renderer encodes path segments
-when creating a reader URL. Files are not embedded in the document.
+Оба узла требуют `attrs.src`: канонический путь к файлу проекта внутри `assets/`,
+без начального `/` или `./`. Runtime-валидация отклоняет обход каталогов, обратные
+слеши, пустые сегменты, URL (включая blob/data) и управляющие символы. В пути хранятся
+имена файлов, а не заранее URL-encoded строки; renderer кодирует сегменты при создании
+URL reader. Содержимое файла не встраивается в документ.
 
-Dimensions reuse `VisualLength`. Width accepts positive pixels or percentages
-(0 < value <= 100 for `%`), defaulting to 100% of the content area. Height accepts
-positive pixels; omission/null means automatic intrinsic aspect ratio. Percent
-height is deliberately unsupported because normal block flow has no definite
-parent height. Width is constrained to the available container by CSS. No image
-measurements or viewport units are needed.
+Размеры используют `VisualLength`. Ширина — положительные пиксели либо проценты
+(0 < value <= 100 для `%`); по умолчанию 100% области содержимого. Высота — положительные
+пиксели; отсутствие/null сохраняет естественное соотношение сторон. Процентная высота
+не поддерживается: у обычного блочного потока нет определённой высоты родителя.
+CSS ограничивает ширину доступным контейнером; измерения изображения и viewport units не нужны.
 
-`align` is left (default), center or right. `fit` is contain (default) or cover;
-it affects the visible content when an explicit height defines a media box.
-These are author settings. A media-mode StoryDialog can override presentation
-through its existing CSS context without modifying the saved attributes.
+`align`: left (по умолчанию), center или right. `fit`: contain (по умолчанию) или cover;
+он влияет на видимую область при явно заданной высоте. Это авторские настройки.
+StoryDialog в media-режиме может менять представление через CSS-контекст,
+не изменяя сохранённые атрибуты.
 
-Image `alt` defaults to the empty string. Video defaults are controls=true,
-autoPlay=false, muted=true, loop=false. Optional `poster` is another project asset
-path; omission/null means no authored poster. Video lifecycle and native controls
-belong to Core Video, not this declaration package.
+`alt` изображения по умолчанию пустой. Начальные значения видео: controls=true,
+autoPlay=false, muted=true, loop=false. Необязательный `poster` — другой путь к ресурсу
+проекта; отсутствие/null означает отсутствие авторского постера. Жизненный цикл
+и native controls принадлежат Core Video, а не этому пакету деклараций.
