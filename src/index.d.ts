@@ -7,6 +7,8 @@ import type {
 import type { JsonObject } from './visual-effects.js';
 import type { VisualRendererProps } from './visual-renderers.js';
 
+export type * from './effect-lifetime.js';
+export type * from './audio-effects.js';
 export type * from './visual-effects.js';
 export type * from './visual-renderers.js';
 export type * from './content.js';

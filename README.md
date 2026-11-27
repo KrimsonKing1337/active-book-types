@@ -93,3 +93,9 @@ export const CustomTitle = ({ book }: BookComponentProps) => {
 Общий runner common умеет запускать проверки types вместе с core/editor, включая фильтр `--repo`.
 [Соглашения разработки](https://github.com/KrimsonKing1337/active-book-common/blob/main/CODING_CONVENTIONS.md),
 [инструкции для агентов](AGENTS.md). При изменении API проверяйте потребителей в обоих соседних репозиториях.
+
+### Декларативное аудио
+
+`AudioEffect` описывает звук в книге. Общий тип `EffectLifetime` используется также
+визуальными эффектами. В авторском аудио срок действия на одной странице задан
+стабильным ID, а после сборки — её позицией в книге. [Описание полей и примеры](docs/audio-effects.md)

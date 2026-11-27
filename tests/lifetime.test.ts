@@ -1,6 +1,6 @@
 import type {
   PageRange,
-  VisualEffectLifetime,
+  EffectLifetime,
   VisualEffectRegistration,
 } from '@active-book/types';
 
@@ -42,9 +42,9 @@ const invalidRange: PageRange = {
 };
 
 // @ts-expect-error A range lifetime requires ranges.
-const missingRange: VisualEffectLifetime = { type: 'range' };
+const missingRange: EffectLifetime = { type: 'range' };
 
-const copiedParameters: VisualEffectLifetime = {
+const copiedParameters: EffectLifetime = {
   type: 'range',
   range,
   // @ts-expect-error Lifetime must not duplicate the instance's visual parameters.
