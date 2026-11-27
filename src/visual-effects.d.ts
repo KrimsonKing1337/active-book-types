@@ -1,3 +1,5 @@
+import type { EffectLifetime } from './effect-lifetime.js';
+
 /** Serializable parameters. Finite numbers and definition-specific values require runtime validation. */
 export type JsonValue =
   | null
@@ -109,24 +111,8 @@ export type VisualEffectInstance<Params extends JsonObject = JsonObject> = {
   depth: VisualDepth;
 };
 
-/** Inclusive page positions in the current book order; never adjusted automatically. */
-export type PageRange = {
-  from: number;
-  to: number;
-};
-
-export type VisualEffectLifetime =
-  | {
-      type: 'page';
-      page: number;
-    }
-  | {
-      type: 'range';
-      range: readonly PageRange[];
-    };
-
 /** Activation input. Lifetime does not duplicate the instance's visual parameters. */
 export type VisualEffectRegistration<Params extends JsonObject = JsonObject> = {
   effect: VisualEffectInstance<Params>;
-  lifetime: VisualEffectLifetime;
+  lifetime: EffectLifetime;
 };
