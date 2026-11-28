@@ -19,12 +19,15 @@ export type * from './dialog.js';
 // The actual implementation belongs to @active-book/core.
 export type BookAudioInstance = {
   readonly id: string;
+  readonly relativeVolume: number;
+  setRelativeVolume: (percent: number) => void;
   playing: () => boolean;
   state: () => string;
 };
 
 export type BookAudioController = {
   audio: BookAudioInstance | null;
+  setRelativeVolume: (percent: number) => void;
   play: (withFadeIn?: boolean) => Promise<void> | undefined;
   pause: (withFadeOut?: boolean) => Promise<void> | undefined;
   stop: (withFadeOut?: boolean) => Promise<void> | undefined;

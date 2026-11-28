@@ -8,6 +8,7 @@ export type AudioEffect<Page extends string | number = string> = {
   src: string;
   lifetime: EffectLifetime<Page>;
   type?: AudioCategory;
+  /** Relative volume from 0 to 200 percent. Defaults to 100. */
   relativeVolume?: number;
   loop?: boolean;
   playOnLoad?: boolean;
@@ -16,6 +17,5 @@ export type AudioEffect<Page extends string | number = string> = {
   fadeIn?: boolean;
   fadeOut?: boolean;
   waitTillTheEnd?: boolean;
-  screamer?: boolean;
   format?: readonly string[];
 };

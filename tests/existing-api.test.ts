@@ -13,6 +13,7 @@ const audio: BookAudioController = {
   play: () => undefined,
   pause: () => undefined,
   stop: () => undefined,
+  setRelativeVolume: () => {},
   remove: () => {},
 };
 
